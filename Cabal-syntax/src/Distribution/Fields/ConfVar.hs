@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE NoMonoLocalBinds #-}
 module Distribution.Fields.ConfVar (parseConditionConfVar, parseConditionConfVarFromClause) where
-
 import Distribution.Compat.CharParsing     (char, integral)
 import Distribution.Compat.Prelude
 import Distribution.Fields.Field           (SectionArg (..), Field(..))
