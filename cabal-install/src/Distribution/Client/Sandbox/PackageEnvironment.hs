@@ -81,7 +81,7 @@ userPackageEnvironmentFile = "cabal.config"
 -- | Type of the current package environment.
 data PackageEnvironmentType
   = UserPackageEnvironment    -- ^ './cabal.config'
-  | AmbientPackageEnvironment -- ^ '~/.config/cabal/config'
+  | AmbientPackageEnvironment -- ^ '~/.cabal/config'
 
 -- | Is there a 'cabal.config' in this directory?
 classifyPackageEnvironment :: FilePath -> IO PackageEnvironmentType
@@ -271,7 +271,7 @@ showPackageEnvironment :: PackageEnvironment -> String
 showPackageEnvironment pkgEnv = showPackageEnvironmentWithComments Nothing pkgEnv
 
 -- | Pretty-print the package environment with default values for empty fields
--- commented out (just like the default Cabal config file).
+-- commented out (just like the default ~/.cabal/config).
 showPackageEnvironmentWithComments :: (Maybe PackageEnvironment)
                                       -> PackageEnvironment
                                       -> String

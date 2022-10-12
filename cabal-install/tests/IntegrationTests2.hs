@@ -15,6 +15,7 @@ import Prelude ()
 
 import Distribution.Client.DistDirLayout
 import Distribution.Client.ProjectConfig
+import Distribution.Client.Config (getCabalDir)
 import Distribution.Client.HttpUtils
 import Distribution.Client.TargetSelector hiding (DirActions(..))
 import qualified Distribution.Client.TargetSelector as TS (DirActions(..))
@@ -1677,7 +1678,8 @@ type ProjDetails = (DistDirLayout,
 
 configureProject :: FilePath -> ProjectConfig -> IO ProjDetails
 configureProject testdir cliConfig = do
-    cabalDirLayout <- defaultCabalDirLayout
+    cabalDir <- getCabalDir
+    let cabalDirLayout = defaultCabalDirLayout cabalDir
 
     projectRootDir <- canonicalizePath (basedir </> testdir)
     isexplict      <- doesFileExist (projectRootDir </> "cabal.project")

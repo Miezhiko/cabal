@@ -183,9 +183,9 @@ report verbosity repoCtxt mUsername mPassword = do
       let auth        :: (String, String)
           auth        = (username, password)
 
-      reportsDir <- defaultReportsDir
+      dotCabal <- getCabalDir
       let srcDir :: FilePath
-          srcDir = reportsDir </> unRepoName (remoteRepoName remoteRepo)
+          srcDir = dotCabal </> "reports" </> unRepoName (remoteRepoName remoteRepo)
       -- We don't want to bomb out just because we haven't built any packages
       -- from this repo yet.
       srcExists <- doesDirectoryExist srcDir

@@ -27,8 +27,6 @@ import Prelude ()
 
 import System.FilePath
 
-import Distribution.Client.Config
-         ( defaultStoreDir, defaultLogsDir)
 import Distribution.Package
          ( PackageId, PackageIdentifier, ComponentId, UnitId )
 import Distribution.Compiler
@@ -294,16 +292,19 @@ defaultStoreDirLayout storeRoot =
       storeIncomingDirectory compid </> prettyShow unitid <.> "lock"
 
 
-defaultCabalDirLayout :: IO CabalDirLayout
-defaultCabalDirLayout =
-    mkCabalDirLayout Nothing Nothing
+defaultCabalDirLayout :: FilePath -> CabalDirLayout
+defaultCabalDirLayout cabalDir =
+    mkCabalDirLayout cabalDir Nothing Nothing
 
-mkCabalDirLayout :: Maybe FilePath -- ^ Store directory. Must be absolute
+mkCabalDirLayout :: FilePath -- ^ Cabal directory
+                 -> Maybe FilePath -- ^ Store directory. Must be absolute
                  -> Maybe FilePath -- ^ Log directory
-                 -> IO CabalDirLayout
-mkCabalDirLayout mstoreDir mlogDir = do
-    cabalStoreDirLayout <-
-      defaultStoreDirLayout <$> maybe defaultStoreDir pure mstoreDir
-    cabalLogsDirectory <-
-      maybe defaultLogsDir pure mlogDir
-    pure $ CabalDirLayout {..}
+                 -> CabalDirLayout
+mkCabalDirLayout cabalDir mstoreDir mlogDir =
+    CabalDirLayout {..}
+  where
+    cabalStoreDirLayout :: StoreDirLayout
+    cabalStoreDirLayout =
+        defaultStoreDirLayout (fromMaybe (cabalDir </> "store") mstoreDir)
+    cabalLogsDirectory :: FilePath
+    cabalLogsDirectory = fromMaybe (cabalDir </> "logs") mlogDir
