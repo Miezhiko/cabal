@@ -11,6 +11,7 @@
 module Distribution.Client.CmdUpdate (
     updateCommand,
     updateAction,
+    updateRepo
   ) where
 
 import Prelude ()
